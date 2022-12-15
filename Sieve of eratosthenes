@@ -1,0 +1,17 @@
+//primes using sieve
+const int maxn=1e5;
+vector<int> primes;
+void findPrimes(){
+    vector<bool> isPrime(maxn,1);
+    for(int i=2;i<maxn/i;i++){
+        if(isPrime[i]){
+            for(int j=i*i;j<maxn;j+=i){
+                isPrime[j]=0;
+            }
+        }
+    }
+    for(int i=2;i<maxn;i++){
+        if(isPrime[i])primes.push_back(i);
+    }
+    isPrime.clear();
+}
