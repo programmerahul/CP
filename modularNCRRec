@@ -1,0 +1,29 @@
+const ll MOD =1e9+7;
+
+ll binExp(ll base,ll exp){
+  if(exp==0)return 1;
+  ll temp=binExp(base,exp/2);
+  temp=(temp*temp)%MOD;
+  if(exp%2){
+    temp=(temp*base)%MOD;
+  }
+  return temp;
+}
+
+vector<ll> fact;
+vector<ll> ifact;
+void cal(ll n){
+  fact.push_back(1);
+  ifact.push_back(1);
+  for(ll i=1;i<=n;i++){
+    fact.push_back((fact[i-1]*i)%MOD);
+    ifact.push_back(binExp(fact[i],MOD-2));
+  }
+}
+
+ll nCr(ll n,ll r){
+  if(n<0 || r<0 || r>n){
+    return 0;
+  }
+  return (fact[n]*ifact[n-r])%MOD*ifact[r]%MOD;
+}
