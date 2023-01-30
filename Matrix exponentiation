@@ -1,0 +1,46 @@
+#define ll long long 
+class Matrix{
+    public:
+    vector<vector<ll>> M;
+    ll rows,cols;
+    Matrix(ll rows=0,ll cols=0):rows(rows),cols(cols){
+       M=vector<vector<ll>>(rows,vector<ll>(cols,0));
+    }
+    Matrix(vector<vector<ll>> v){
+        M=v;
+        rows=v.size();
+        cols=v[0].size();
+    }
+};
+Matrix operator*(Matrix m1,Matrix m2){
+    Matrix ans(m1.rows,m2.cols);
+    for(ll i=0;i<m1.rows;i++){
+        for(ll j=0;j<m2.cols;j++){
+            for(ll k=0;k<m1.cols;k++){
+                ans.M[i][j]+=(m1.M[i][k]*m2.M[k][j]);
+            }
+        }
+    }
+    return ans;
+}
+//do not works for n==0
+Matrix binPow(Matrix m,ll n){
+    if(n==1)return m;
+    Matrix half=binPow(m,n/2);
+    if(n%2)return half*half*m;
+    return half*half;
+}
+
+//Example of use in function to calculate fibonacci
+ // int fib(int n) {
+    //     if(n==0)return 0;
+    //     vector<vector<ll>> temp={
+    //                             {0,1},
+    //                             {1,1}
+    //                                 };
+    //     vector<vector<ll>> m0={{0},{1}};
+    //     Matrix m=mat;
+    //     m=binPow(m,n);
+    //     m=m*m0;
+    //   return m.M[0][0];
+    // }
