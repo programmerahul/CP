@@ -1,17 +1,15 @@
-//primes using sieve
-const int maxn=1e5;
 vector<int> primes;
-void findPrimes(){
-    vector<bool> isPrime(maxn,1);
-    for(int i=2;i<maxn/i;i++){
-        if(isPrime[i]){
-            for(int j=i*i;j<maxn;j+=i){
-                isPrime[j]=0;
-            }
+void SieveOfEratosthenes(int n)
+{
+    bool prime[n + 1];
+    memset(prime, true, sizeof(prime));
+    for (int p = 2; p * p <= n; p++) {
+        if (prime[p] == true) {
+            for (int i = p * p; i <= n; i += p)
+                prime[i] = false;
         }
     }
-    for(int i=2;i<maxn;i++){
-        if(isPrime[i])primes.push_back(i);
-    }
-    isPrime.clear();
+    for (int p = 2; p <= n; p++)
+        if (prime[p])
+           primes.push_back(p);
 }
