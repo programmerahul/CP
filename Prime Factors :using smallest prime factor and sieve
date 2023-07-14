@@ -1,0 +1,27 @@
+//N=biggest number of which factors are required!
+long long N;
+vector<long long> spf;//spf[i]= smallest prime factor of i;
+void findSpf(){
+    spf.clear();
+    spf.resize(N+1);
+    spf[1]=1;
+    for(long long i=2;i<=N;i++){
+        if(!spf[i]){
+            spf[i]=i;
+            for(long long k=i*i;k<=N;k+=i){
+                if(!spf[k])spf[k]=i;
+            }
+        }
+    }
+}
+vector<long long> primeFactors(long long x){
+    vector<long long> fac;
+    while(x>1){
+       long long f=spf[x];
+       while(x%f==0)x/=f;
+       fac.push_back(f);
+    }
+    return fac;
+}
+
+//in main : N=1e5; findSpf(); vector<int> factors= primeFactor(x);
