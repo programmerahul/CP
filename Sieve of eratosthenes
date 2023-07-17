@@ -1,5 +1,5 @@
 vector<int> primes;
-void SieveOfEratosthenes(int n)
+void sieve(int n)
 {
     bool prime[n + 1];
     memset(prime, true, sizeof(prime));
