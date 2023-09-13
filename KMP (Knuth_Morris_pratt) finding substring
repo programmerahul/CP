@@ -1,0 +1,43 @@
+//longest prefix suffix of patter t
+//abcabk
+//000120
+ vector<int> LPS(string t){
+    int n=t.size();
+    vector<int> ans(n,0);
+    for(int i=1;i<n;i++){
+        if(t[ans[i-1]]==t[i]){
+            ans[i]=ans[i-1]+1;
+        }else{
+            ans[i]=ans[i-1];
+        }
+    }
+    return ans;
+ }
+
+//find all t in s
+//returns start index
+vector<int> KMP(string s, string t)
+{
+    int n=s.size();
+    int m=t.size();
+    vector<int> lps=LPS(t);
+    vector<int> ans;
+    int i=0;
+    int j=0;
+    while(i<n){
+        if(j<m && s[i]==t[j]){
+            i++;
+            j++;
+        }else{
+            if(j>0){
+                j=lps[j-1];
+            }else{
+                i++;
+            }
+        }
+        if(j==m){
+            ans.push_back(i-m);
+        }
+    }
+    return ans;
+}
