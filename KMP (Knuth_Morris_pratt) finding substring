@@ -1,4 +1,4 @@
-//longest prefix suffix of patter t
+//longest prefix suffix of pattern t
 //abcabk
 //000120
  vector<int> LPS(string t){
