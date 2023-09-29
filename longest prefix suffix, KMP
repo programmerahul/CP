@@ -1,1 +1,30 @@
+/longest prefix suffix of patter t
+//abcabk
+//000120
+ vector<int> prefix_function(string s) {
+    int n = (int)s.length();
+    vector<int> pi(n);
+    for (int i = 1; i < n; i++) {
+        int j = pi[i-1];
+        while (j > 0 && s[i] != s[j])
+            j = pi[j-1];
+        if (s[i] == s[j])
+            j++;
+        pi[i] = j;
+    }
+    return pi;
+}
 
+//find all t in s
+//returns start index
+vector<int> KMP(string s, string t)
+{
+    string temp=t+"$"+s;
+    vector<int> pi=prefix_function(temp);
+    int n=t.size();
+    vector<int> ans;
+    for(int i=n+1;i<temp.size();i++){
+        if(lps[i]==n)ans.push_back(i-n+1-(n+1));
+    }
+    return ans;
+}
