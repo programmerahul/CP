@@ -1,4 +1,4 @@
-/longest prefix suffix of patter t
+//longest prefix suffix of patter t
 //abcabk
 //000120
  vector<int> prefix_function(string s) {
