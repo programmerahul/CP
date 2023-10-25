@@ -1,3 +1,4 @@
+#define ll long long
 const ll MOD =1e9+7;
 
 ll binExp(ll base,ll exp){
@@ -13,6 +14,8 @@ ll binExp(ll base,ll exp){
 vector<ll> fact;
 vector<ll> ifact;
 void cal(ll n){
+  fact.clear();
+  ifact.clear();
   fact.push_back(1);
   ifact.push_back(1);
   for(ll i=1;i<=n;i++){
@@ -27,3 +30,4 @@ ll nCr(ll n,ll r){
   }
   return (fact[n]*ifact[n-r])%MOD*ifact[r]%MOD;
 }
+//call cal(n) in main
