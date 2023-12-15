@@ -1,0 +1,48 @@
+class Node{
+    public:
+        int val;
+        int l,r;
+        Node* left,*right;
+};
+void build(Node* root,vector<int>& v,int l,int r){
+    if(l>r)return;
+    if(l==r){
+        root->val=v[l];
+        root->l=l;
+        root->r=r;
+        return;
+    }
+    int mid=(l+r)/2;
+    root->left=new Node();
+    root->right=new Node();
+    build(root->left,v,l,mid);
+    build(root->right,v,mid+1,r);
+    root->val=root->left->val+root->right->val;
+    root->l=l;
+    root->r=r;
+}
+int sum(Node* root,int l,int r){
+    if(root->l==l && root->r==r)return root->val;
+    int mid=(root->l+root->r)/2;
+    if(r<=mid)return sum(root->left,l,r);
+    if(l>mid)return sum(root->right,l,r);
+    return sum(root->left,l,mid)+sum(root->right,mid+1,r);
+}
+void update(Node* root,int index,int val){
+    if(root->l==index && root->r==index){
+        root->val=val;
+        return;
+    }
+    int mid=(root->l+root->r)/2;
+    if(index<=mid){
+        update(root->left,index,val);
+    }else{
+        update(root->right,index,val);
+    }
+    root->val=root->left->val+root->right->val; 
+}
+// Node* root;
+// root=new Node();
+// build(root,nums,0,nums.size()-1);
+// update(root,index,val);
+// sum(root,left,right);
