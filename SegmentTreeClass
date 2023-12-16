@@ -59,6 +59,6 @@ class SegmentTree{
         }
 };
 
-//SegmentTree st(nums);
-//st.query(0,5);
-//st.update(0,4,3);
+//SegmentTree st(nums); //creates segment tree with vector nums
+//st.query(0,5);        //returns answer of range [0 to 5]
+//st.update(0,4,3);     //update values of range [0 to 4] to value 3
