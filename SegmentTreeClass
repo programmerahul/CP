@@ -1,48 +1,64 @@
-class Node{
+class StNode{
     public:
         int val;
         int l,r;
-        Node* left,*right;
+        StNode* left,*right;
 };
-void build(Node* root,vector<int>& v,int l,int r){
-    if(l>r)return;
-    if(l==r){
-        root->val=v[l];
+class SegmentTree{
+    StNode* root;
+    int defaultVal=0;//when segment is empty(change1)
+    int stFun(int x,int y){
+        return x+y;//change it to required fun(change2)
+    }
+    void build(StNode* root,vector<int>& v,int l,int r){
+        if(l>r)return;
+        if(l==r){
+            root->val=v[l];
+            root->l=l;
+            root->r=r;
+            return;
+        }
+        int mid=(l+r)/2;
+        root->left=new StNode();
+        root->right=new StNode();
+        build(root->left,v,l,mid);
+        build(root->right,v,mid+1,r);
+        root->val=stFun(root->left->val,root->right->val);
         root->l=l;
         root->r=r;
-        return;
     }
-    int mid=(l+r)/2;
-    root->left=new Node();
-    root->right=new Node();
-    build(root->left,v,l,mid);
-    build(root->right,v,mid+1,r);
-    root->val=root->left->val+root->right->val;
-    root->l=l;
-    root->r=r;
-}
-int sum(Node* root,int l,int r){
-    if(root->l==l && root->r==r)return root->val;
-    int mid=(root->l+root->r)/2;
-    if(r<=mid)return sum(root->left,l,r);
-    if(l>mid)return sum(root->right,l,r);
-    return sum(root->left,l,mid)+sum(root->right,mid+1,r);
-}
-void update(Node* root,int index,int val){
-    if(root->l==index && root->r==index){
-        root->val=val;
-        return;
+    int inquery(StNode* root,int l,int r){
+        if(l>r)return defaultVal;
+        if(root->l==l && root->r==r)return root->val;
+        int mid=(root->l+root->r)/2;
+        return stFun(inquery(root->left,l,min(mid,r)),
+                     inquery(root->right,max(mid+1,l),r));
     }
-    int mid=(root->l+root->r)/2;
-    if(index<=mid){
-        update(root->left,index,val);
-    }else{
-        update(root->right,index,val);
+    void inupdate(StNode* root,int l,int r,int val){
+        if(l>r)return;
+        if(root->l==l && root->r==r){
+            root->val=val;
+            return;
+        }
+        int mid=(root->l+root->r)/2;
+        inupdate(root->left,l,min(mid,r),val);
+        inupdate(root->right,max(mid+1,l),r,val);
+        root->val=stFun(root->left->val,root->right->val);
     }
-    root->val=root->left->val+root->right->val; 
-}
-// Node* root;
-// root=new Node();
-// build(root,nums,0,nums.size()-1);
-// update(root,index,val);
-// sum(root,left,right);
+    public:
+        SegmentTree(vector<int>& v){
+            root=new StNode();
+            build(root,v,0,v.size()-1);
+        }
+        int query(int l,int r){
+           return inquery(root,l,r);
+        }
+        void update(int l,int r,int val){
+            //to update a particular point: l==r==indexOfUpdate
+            inupdate(root,l,r,val);
+        }
+};
+
+//SegmentTree st(nums);
+//st.query(0,5);
+//st.update(0,4,3);
