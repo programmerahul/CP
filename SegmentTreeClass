@@ -8,7 +8,7 @@ class SegmentTree{
     StNode* root;
     int defaultVal=0;//when segment is empty(change1)
     int stFun(int x,int y){
-        return x+y;//change it to required fun(change2)
+        return max(x,y);//change it to required fun(change2)
     }
     void build(StNode* root,vector<int>& v,int l,int r){
         if(l>r)return;
@@ -36,7 +36,7 @@ class SegmentTree{
     }
     void inupdate(StNode* root,int l,int r,int val){
         if(l>r)return;
-        if(root->l==l && root->r==r){
+        if(root->l==root->r){
             root->val=val;
             return;
         }
