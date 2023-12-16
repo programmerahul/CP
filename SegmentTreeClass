@@ -2,7 +2,12 @@ class StNode{
     public:
         int val;
         int l,r;
+        bool mark;//for lazy propagation(marked means this subtree needs update)
         StNode* left,*right;
+        StNode(){
+            mark=0;
+            left=right=NULL;
+        }
 };
 class SegmentTree{
     StNode* root;
@@ -27,23 +32,33 @@ class SegmentTree{
         root->l=l;
         root->r=r;
     }
+    void push(StNode* root){
+        if (root->mark) {
+            root->left->val=root->right->val=root->val;
+            root->left->mark=root->right->mark = true;
+            root->mark = false;
+        }
+    }
     int inquery(StNode* root,int l,int r){
         if(l>r)return defaultVal;
-        if(root->l==l && root->r==r)return root->val;
+        if((root->l==l) && (root->r==r))return root->val;
+        push(root);
         int mid=(root->l+root->r)/2;
         return stFun(inquery(root->left,l,min(mid,r)),
                      inquery(root->right,max(mid+1,l),r));
     }
     void inupdate(StNode* root,int l,int r,int val){
         if(l>r)return;
-        if(root->l==root->r){
-            root->val=val;
-            return;
+        if(root->l==l && root->r==r){
+           root->val=val;
+           root->mark=true;
+        }else{
+            push(root);
+            int mid=(root->l+root->r)/2;
+            inupdate(root->left,l,min(mid,r),val);
+            inupdate(root->right,max(mid+1,l),r,val);
+            root->val=stFun(root->left->val,root->right->val);
         }
-        int mid=(root->l+root->r)/2;
-        inupdate(root->left,l,min(mid,r),val);
-        inupdate(root->right,max(mid+1,l),r,val);
-        root->val=stFun(root->left->val,root->right->val);
     }
     public:
         SegmentTree(vector<int>& v){
