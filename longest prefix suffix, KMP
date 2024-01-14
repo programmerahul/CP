@@ -24,7 +24,7 @@ vector<int> KMP(string s, string t)
     int n=t.size();
     vector<int> ans;
     for(int i=n+1;i<temp.size();i++){
-        if(lps[i]==n)ans.push_back(i-n+1-(n+1));
+        if(pi[i]==n)ans.push_back(i-n+1-(n+1));
     }
     return ans;
 }
