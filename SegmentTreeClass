@@ -1,7 +1,8 @@
+#define ll long long
 class StNode{
     public:
-        int val;
-        int l,r;
+        ll val;
+        ll l,r;
         bool mark;//for lazy propagation(marked means this subtree needs update)
         StNode* left,*right;
         StNode(){
@@ -11,11 +12,11 @@ class StNode{
 };
 class SegmentTree{
     StNode* root;
-    int defaultVal=0;//when segment is empty(change1)
-    int stFun(int x,int y){
+    ll defaultVal=0;//when segment is empty(change1)
+    ll stFun(ll x,ll y){
         return max(x,y);//change it to required fun(change2)
     }
-    void build(StNode* root,vector<int>& v,int l,int r){
+    void build(StNode* root,vector<ll>& v,ll l,ll r){
         if(l>r)return;
         if(l==r){
             root->val=v[l];
@@ -23,7 +24,7 @@ class SegmentTree{
             root->r=r;
             return;
         }
-        int mid=(l+r)/2;
+        ll mid=(l+r)/2;
         root->left=new StNode();
         root->right=new StNode();
         build(root->left,v,l,mid);
@@ -39,37 +40,37 @@ class SegmentTree{
             root->mark = false;
         }
     }
-    int inquery(StNode* root,int l,int r){
+    ll inquery(StNode* root,ll l,ll r){
         if(l>r)return defaultVal;
         if((root->l==l) && (root->r==r))return root->val;
         push(root);
-        int mid=(root->l+root->r)/2;
+        ll mid=(root->l+root->r)/2;
         return stFun(inquery(root->left,l,min(mid,r)),
                      inquery(root->right,max(mid+1,l),r));
     }
-    void inupdate(StNode* root,int l,int r,int val){
+    void inupdate(StNode* root,ll l,ll r,ll val){
         if(l>r)return;
         if(root->l==l && root->r==r){
            root->val=val;
            root->mark=true;
         }else{
             push(root);
-            int mid=(root->l+root->r)/2;
+            ll mid=(root->l+root->r)/2;
             inupdate(root->left,l,min(mid,r),val);
             inupdate(root->right,max(mid+1,l),r,val);
             root->val=stFun(root->left->val,root->right->val);
         }
     }
     public:
-        SegmentTree(vector<int>& v){
+        SegmentTree(vector<ll>& v){
             root=new StNode();
             build(root,v,0,v.size()-1);
         }
-        int query(int l,int r){
+        ll query(ll l,ll r){
            return inquery(root,l,r);
         }
-        void update(int l,int r,int val){
-            //to update a particular point: l==r==indexOfUpdate
+        void update(ll l,ll r,ll val){
+            //to update a particular poll: l==r==indexOfUpdate
             inupdate(root,l,r,val);
         }
 };
