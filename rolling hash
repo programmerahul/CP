@@ -1,0 +1,23 @@
+#define ll long long
+vector<ll> p_pow;//0 indexed
+vector<ll> pref;//1 indexed
+ll p=31;
+ll mod=1e9+7;
+void hashPref(string& s){
+    ll n=s.size();
+    p_pow.clear();
+    pref.clear();
+    p_pow.resize(n,0);
+    pref.resize(n+1,0);
+    p_pow[0]=1;
+    for(ll i=1;i<n;i++){
+        p_pow[i]=(p_pow[i-1]*p)%mod;
+    }
+    for(ll i=0;i<n;i++){
+        pref[i+1]=(pref[i]+((s[i]-'a'+1)*(p_pow[i]))%mod)%mod;
+    }
+}
+//call hashPref(); then use p_pow, pref
+ll findHash(string &s,ll i,ll j){ //hash of s[i..j]
+   return (pref[j+1]-pref[i]+mod)%mod;
+}
