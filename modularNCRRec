@@ -1,3 +1,4 @@
+#define ll long long
 const ll mod =1e9+7;
 ll binExp(ll base,ll exp){
   if(exp==0)return 1;
