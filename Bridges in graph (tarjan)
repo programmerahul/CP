@@ -1,0 +1,34 @@
+#define ll long long
+vector<vector<ll>> bridges;
+// returns the smallest level root can reach without parent
+ll tarjanDfs(ll root,ll parent,ll level,
+            vector<vector<ll>>& adj,vector<ll>& vis)
+{
+    vis[root]=level;
+    ll mn=LLONG_MAX;
+    for(auto node:adj[root]){
+        if(node!=parent){
+            if(vis[node]){
+                mn=min(mn,vis[node]);
+            }else{
+                ll clevel=tarjanDfs(node,root,level+1,adj,vis);
+                if(clevel>level)bridges.push_back({root,node});
+                mn=min(mn,clevel);
+            }
+        }
+    }
+    return mn;
+}
+
+//works for disconnect graph also
+void tarjan(vector<vector<ll>>& adj){
+    bridges.clear();
+    ll n=adj.size();
+    vector<ll> vis(n);
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
+            tarjanDfs(i,-1,1,adj,vis);
+        }
+    }
+}
+//tarjan(adj);
