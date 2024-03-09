@@ -24,4 +24,4 @@ vector<long long> primeFactors(long long x){
     return fac;
 }
 
-//in main : N=1e5; findSpf(); vector<int> factors= primeFactor(x);
+//in main : N=1e5; findSpf(); vector<int> factors= primeFactors(x);
