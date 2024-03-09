@@ -16,3 +16,4 @@ class UnionFind{
         parent[xset]=yset;
     }
 };
+// UnionFind dsu(n);if( dsu.find(x)==dsu.find(y) ) ; dsu.union_set(x,y);
